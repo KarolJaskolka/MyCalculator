@@ -170,7 +170,7 @@ public class Main extends Application{
 		if(clearText) text.clear();
 
 		if(power10) {
-			setTextField(Math.pow(10, Double.parseDouble(number)));
+			setTextField(Calculator.powerOf10(Double.parseDouble(number)));
 			power10 = false;
 		}
 		else {
@@ -201,18 +201,18 @@ public class Main extends Application{
 		
 	}
 	public void buttonSquareRootClicked() {
-		
-		if(Double.parseDouble(text.getText()) > 0) {
-			setTextField(Math.sqrt(Double.parseDouble(text.getText())));
+		try {
+			setTextField(Calculator.sqrt(Double.parseDouble(text.getText())));
 			clearText = true;
 			dotUsed = false;
 			hint.setText("0");
+		} catch(ArithmeticException ex) {
+			ex.getMessage();
 		}
-		
 	}
 	public void buttonCubeRootClicked() {
 
-		setTextField(Math.cbrt(Double.parseDouble(text.getText())));
+		setTextField(Calculator.cbrt(Double.parseDouble(text.getText())));
 		clearText = true;
 		dotUsed = false;
 		hint.setText("0");
@@ -220,7 +220,7 @@ public class Main extends Application{
 	}
 	public void buttonPowerClicked() {
 		
-		setTextField(Math.pow(Double.parseDouble(text.getText()),2));
+		setTextField(Calculator.power(Double.parseDouble(text.getText()),2));
 		clearText = true;
 		dotUsed = false;
 		hint.setText("0");
@@ -228,7 +228,7 @@ public class Main extends Application{
 	}
 	public void buttonPower3Clicked() {
 
-		setTextField(Math.pow(Double.parseDouble(text.getText()),3));
+		setTextField(Calculator.power(Double.parseDouble(text.getText()),3));
 		clearText = true;
 		dotUsed = false;
 		hint.setText("0");
@@ -268,17 +268,23 @@ public class Main extends Application{
 		
 		switch(choice) {
 			case 1:
-				result = memory + Double.parseDouble(text.getText());
+				result = Calculator.add(memory, Double.parseDouble(text.getText()));
 				break;
 			case 2:
-				result = memory - Double.parseDouble(text.getText());
+				result = Calculator.subtract(memory, Double.parseDouble(text.getText()));
 				break;
 			case 3:
-				result = memory * Double.parseDouble(text.getText());
+				result = Calculator.multiply(memory, Double.parseDouble(text.getText()));;
 				break;
 			case 4:
 				if(memory !=0) {
-				result = memory / Double.parseDouble(text.getText());
+					try {
+						result = Calculator.divide(memory, Double.parseDouble(text.getText()));
+					}
+					catch(ArithmeticException ex) {
+						ex.getMessage();
+					}
+				
 				}
 				break;
 			default:
